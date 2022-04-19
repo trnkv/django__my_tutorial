@@ -15,7 +15,8 @@
         </tr>
     </thead>
     <tbody>
-        {% for category, product in result.items %}
+        {% for category, products in result.items %}
+        {% for product in products %}
         <tr>
             <th scope="row">{{ category }}</th>
             <td>{{ product.name }}</td>
@@ -24,6 +25,8 @@
                 <button onclick='delete_a_product( {{ product.id }} );' class="btn btn-sm btn-danger">DELETE</button>
             </td>
         </tr>
+        {% endfor %}
+
         {% endfor %}
     </tbody>
 </table>
@@ -36,7 +39,7 @@
     function delete_a_product(product_id) {
         $.ajax({
             url: "{% url 'app:delete_a_product' %}",
-            data: {'product_id': product_id}
+            data: { 'product_id': product_id }
         }).done(function (response) {
             location.reload();
         }).fail(function (xhr, ajaxOptions, thrownError) {
