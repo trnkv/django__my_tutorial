@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>My Cart</h1>
+<h3>Hello, {{ user.get_full_name }}!</h3>
+
+<!-- Собсно содержимое самой корзины через Django-теги -->
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category, product in result.items %}
+        <tr>
+            <th scope="row">{{ category }}</th>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }}</td>
+            <td>
+                <button onclick='delete_a_product( {{ product.id }} );' class="btn btn-sm btn-danger">DELETE</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<a href="{% url 'app:index' %}" class="btn btn-primary">Go to Store</a>
+
+
+<script>
+    function delete_a_product(product_id) {
+        $.ajax({
+            url: "{% url 'app:delete_a_product' %}",
+            data: {'product_id': product_id}
+        }).done(function (response) {
+            location.reload();
+        }).fail(function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+            console.log(thrownError);
+        })
+    }
+</script>
+
+{% endblock %}

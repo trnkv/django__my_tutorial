@@ -1,31 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title %}
-    <title>Our super store</title>
-    {% endblock %}
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-
-<body>
-    <div class="container-fluid"></div>
-    <button class="btn btn-primary" onclick="">Show My Cart</button>
-</body>
-
-<!-- JQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+<div class="container-fluid">
+    <div class="row"></div>
+    <a href="{% url 'app:show_cart' %}" class="btn btn-primary">Show My Cart</a>
+</div>
 
 <script>
     $(function () {
@@ -33,17 +12,15 @@
             url: "{% url 'app:get_all_products' %}"
         }).done(function (response) {
             response.forEach(dict => {
-                $(".container-fluid").append(`\
-                    <div class="row">\
-                        <div class="col">\
-                            <div class="card" style="width: 18rem;">\
-                                <div class="card-body">\
-                                    <h5 class="card-title">${dict.name}</h5>\
-                                    <p class="card-text">Price: ${dict.price}</p>\
-                                    <p class="card-text">Category: ${dict.category}</p>\
-                                    <button class="btn btn-success" onclick="add_to_cart(${dict.id});">Add to My Cart</button>\
-                                </div>\
-                        </div>\
+                $(".row").append(`\
+                    <div class="col">\
+                        <div class="card" style="width: 18rem;">\
+                            <div class="card-body">\
+                                <h5 class="card-title">${dict.name}</h5>\
+                                <p class="card-text">Price: ${dict.price}</p>\
+                                <p class="card-text">Category: ${dict.category}</p>\
+                                <button class="btn btn-success" onclick="add_to_cart(${dict.id});">Add to My Cart</button>\
+                            </div>\
                     </div>\
                 </div>\
                 `
@@ -74,5 +51,4 @@
     }
 </script>
 
-
-</html>
+{% endblock %}
